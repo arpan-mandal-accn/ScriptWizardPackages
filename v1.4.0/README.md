@@ -2,14 +2,22 @@
 
 Rebrand from Script Manager to Script Wizard + desktop runner agent.
 
+> **Rebuilt 2026-08-05** — server packages refreshed so the on-device run-window shows the
+> **script name** instead of the job UUID (the server now sends `script_name` in the deploy
+> frame). Server-side only; the agent needs no update. A dedicated same-brand
+> `ScriptWizard-1.4.0-patch.zip` was added for in-place updates of existing Script Wizard boxes.
+
 ## Packages
 
 | File | Size | Description |
 |---|---|---|
-| `ScriptWizard-1.4.0-Setup.zip` | ~60 MB | Fresh server install. Includes offline Python cp312 wheelhouse — no internet required. Run `setup\install.ps1`. |
-| `ScriptWizard-1.4.0-migrate.zip` | ~0.6 MB | Migrate an existing Script Manager install (1.4.0 or 1.2.8) to Script Wizard. Run `setup\migrate.ps1`. Also works as a same-brand server patch via `setup\update.ps1`. |
-| `ScriptWizard-Agent-1.4.0-patch.zip` | ~105 KB | Agent code-only patch for an already-installed agent. Stops the service, overlays new source files, restarts. Run `update-agent.ps1`. Add `-Deps` if updating dependencies. |
-| `ScriptWizard-Agent-1.4.0.zip` | — | *(Full agent installer — pending build)* |
+| `ScriptWizard-1.4.0-Setup.zip` | ~60 MB | **Fresh server install.** Includes the offline Python cp312 wheelhouse — no internet required. Run `setup\install.ps1`. |
+| `ScriptWizard-1.4.0-migrate.zip` | ~0.6 MB | **Migrate** an existing Script Manager install (1.4.0 or 1.2.8) **to** Script Wizard 1.4.0. Run `setup\migrate.ps1`. Renames folders, tasks, firewall, IIS site, and the SQL database, then applies the latest code. |
+| `ScriptWizard-1.4.0-patch.zip` | ~0.6 MB | **Same-brand server patch** for an install that is *already* Script Wizard 1.4.0. In-place code update only (no rebrand). Run `setup\update.ps1` (add `-Deps` if dependencies changed). |
+| `ScriptWizard-Agent-1.4.0.zip` | ~35 MB | **Full agent installer** for a runner device. Bundles its own offline wheelhouse. Run `install.ps1`. |
+| `ScriptWizard-Agent-1.4.0-patch.zip` | ~110 KB | **Agent code-only patch** for an already-installed agent. Stops the service, overlays new source files, restarts. Run `update-agent.ps1` (add `-Deps` if dependencies changed). |
+
+> **Server vs. agent, migrate vs. patch:** use **migrate** to convert a *Script Manager* box to Script Wizard; use **patch** to update a box that is *already* Script Wizard. Both carry the same application code — only the lifecycle scripts differ.
 
 Password: shared separately.
 

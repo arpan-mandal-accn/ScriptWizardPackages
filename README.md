@@ -83,7 +83,8 @@ outbound WebSocket.
 | Package | Size | Use it to… |
 |:--|--:|:--|
 | 🟣 **`ScriptWizard-1.4.0-Setup.zip`** | ~60 MB | **Install a fresh server** — bundles the Python 3.12 wheelhouse, fully offline |
-| 🔵 **`ScriptWizard-1.4.0-migrate.zip`** | ~1 MB | **Migrate** from Script Manager, or apply a same-brand server patch |
+| 🔵 **`ScriptWizard-1.4.0-migrate.zip`** | ~1 MB | **Migrate** a Script Manager server (1.2.8 / 1.4.0) → Script Wizard 1.4.0 |
+| 🟡 **`ScriptWizard-1.4.0-patch.zip`** | ~1 MB | **Update an existing Script Wizard server** — same-brand, in-place code patch |
 | 🟢 **`ScriptWizard-Agent-1.4.0.zip`** | ~35 MB | **Install a desktop runner** on a device — bundles its own offline wheelhouse |
 | ⚪ **`ScriptWizard-Agent-1.4.0-patch.zip`** | ~110 KB | **Update an installed agent** — code-only, no reinstall, no wheelhouse |
 
@@ -113,6 +114,19 @@ cd ScriptWizard
 ```
 Renames folders, tasks, firewall, IIS site, and the SQL database, then applies the 1.4.0
 update. Works from Script Manager 1.4.0 **and** 1.2.8. Snapshot the machine first.
+</details>
+
+<details>
+<summary><b>🟡 Patch an existing Script Wizard server</b></summary>
+
+```powershell
+# Already running Script Wizard 1.4.0? Extract ScriptWizard-1.4.0-patch.zip, then elevated:
+cd ScriptWizard
+.\setup\update.ps1 -Deps
+```
+In-place code overlay only — **no rebrand/rename**. Stops the service, overwrites the app
+code (nothing deleted), runs the additive schema migration, re-registers the SYSTEM
+watchdog, restarts. Drop `-Deps` if `requirements.txt` is unchanged.
 </details>
 
 <details>
