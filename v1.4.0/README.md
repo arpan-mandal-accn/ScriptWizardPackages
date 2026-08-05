@@ -1,0 +1,26 @@
+# v1.4.0 — 2026-08-05
+
+Rebrand from Script Manager to Script Wizard + desktop runner agent.
+
+## Packages
+
+| File | Size | Description |
+|---|---|---|
+| `ScriptWizard-1.4.0-Setup.zip` | ~60 MB | Fresh server install. Includes offline Python cp312 wheelhouse — no internet required. Run `setup\install.ps1`. |
+| `ScriptWizard-1.4.0-migrate.zip` | ~0.6 MB | Migrate an existing Script Manager install (1.4.0 or 1.2.8) to Script Wizard. Run `setup\migrate.ps1`. Also works as a same-brand server patch via `setup\update.ps1`. |
+| `ScriptWizard-Agent-1.4.0-patch.zip` | ~105 KB | Agent code-only patch for an already-installed agent. Stops the service, overlays new source files, restarts. Run `update-agent.ps1`. Add `-Deps` if updating dependencies. |
+| `ScriptWizard-Agent-1.4.0.zip` | — | *(Full agent installer — pending build)* |
+
+Password: shared separately.
+
+## What's new in 1.4.0
+
+- **Desktop runner agent** — separate Windows service on runner devices; executes scripts in a real interactive session dispatched over an outbound WebSocket. No Task Scheduler.
+- **RDP deployment** — loopback FreeRDP for on-demand session creation (A360-style). ForceAutoLogon re-arms after every sign-out.
+- **Run window** — native Script Wizard icon, script name + profile badge, proper taskbar minimize, clean Stop/close-as-cancel.
+- **NoSignOut boot task** — hides the Sign Out UI on runner devices; survives Group Policy cycles.
+- **Input variable injection** — desktop scripts now correctly receive all declared input variables.
+- **Users: email column** — stored email shown in user list; email override setting for non-prod environments.
+- **API key validator** — validate a full key string from the Keys page.
+- **Rebrand** — all references updated from Script Manager to Script Wizard (UI, docs, folder names, DB name).
+- **Migration hardening** — stale-target detection, preflight integrity check, DB backup step, repair script for half-done migrations.
