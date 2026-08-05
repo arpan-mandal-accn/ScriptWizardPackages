@@ -2,10 +2,14 @@
 
 Rebrand from Script Manager to Script Wizard + desktop runner agent.
 
-> **Rebuilt 2026-08-05** — server packages refreshed so the on-device run-window shows the
-> **script name** instead of the job UUID (the server now sends `script_name` in the deploy
-> frame). Server-side only; the agent needs no update. A dedicated same-brand
-> `ScriptWizard-1.4.0-patch.zip` was added for in-place updates of existing Script Wizard boxes.
+> **Rebuilt 2026-08-05** — all five packages refreshed with two fixes:
+> - **Runner auto-reconnect** — a runner now reliably reconnects after the Script Wizard server
+>   restarts (application-level heartbeat ACK + agent liveness watchdog, robust through IIS/ARR).
+>   Spans **server and agent**, so update both sides.
+> - **Run-window script name** — the on-device run-window shows the **script name** instead of the
+>   job UUID (server sends `script_name` in the deploy frame).
+>
+> A dedicated same-brand `ScriptWizard-1.4.0-patch.zip` is included for in-place server updates.
 
 ## Packages
 
