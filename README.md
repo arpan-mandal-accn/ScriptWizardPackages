@@ -1,176 +1,181 @@
-# Script Wizard — Packages
+<div align="center">
 
-> Internal distribution repository for **Script Wizard** installation packages.
-> All zips are AES-256 encrypted. [Contact the maintainer](#contact) to obtain the password.
+# 🪄 Script Wizard
+
+### Packages &amp; Distribution
+
+**The on-prem Windows automation platform** — author, schedule, and run
+Python · PowerShell · VBScript at scale, from a clean dashboard, with team-scoped
+access, Active Directory sign-in, and desktop-automation runners.
+
+<br/>
+
+![Version](https://img.shields.io/badge/version-1.4.0-6D28D9?style=for-the-badge)
+![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Python](https://img.shields.io/badge/python-3.11%20|%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Packages](https://img.shields.io/badge/packages-AES--256-16A34A?style=for-the-badge&logo=gnuprivacyguard&logoColor=white)
+
+![FastAPI](https://img.shields.io/badge/FastAPI-async-009688?style=flat-square&logo=fastapi&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-aioodbc-CC2927?style=flat-square&logo=microsoftsqlserver&logoColor=white)
+![WebSocket](https://img.shields.io/badge/runners-WebSocket-010101?style=flat-square&logo=socketdotio&logoColor=white)
+![IIS](https://img.shields.io/badge/HTTPS-IIS%20reverse%20proxy-5C2D91?style=flat-square&logo=microsoft&logoColor=white)
+![Distribution](https://img.shields.io/badge/distribution-internal%20only-EA580C?style=flat-square)
+
+</div>
 
 ---
 
-## What is Script Wizard?
+> 🔐 **All archives are AES-256 encrypted.** [Contact the maintainer](#-contact) for the distribution password.
 
-**Script Wizard** is a self-hosted Windows automation platform for enterprise environments.
-It lets teams register, organize, run, schedule, and monitor **Python / PowerShell / VBScript**
-automations from a web dashboard or a REST API — with team-scoped access control, Active Directory
-sign-in, scheduling, failure alerting, and full run history.
+<br/>
 
-### Key capabilities
+## 📖 About
 
-- **Script library** — organized in a nested folder tree with a rich in-browser Monaco editor,
-  input/output variable schemas, tags, timeouts, versions, and JSON import/export.
-- **Execution engine** — a priority queue runs scripts as sandboxed subprocesses with concurrency
-  limits, timeouts, retries, live log streaming, and artifact collection.
-- **Desktop automation runners** — register separate Windows devices as runner agents. Admins flag
-  a script "Use Desktop" and it is deployed over a secure outbound WebSocket to run in a real
-  interactive session on the runner device. Supports **Normal (console auto-login)** and **RDP**
-  deployment types, CyberArk credential integration, and live log/progress streaming back to the
-  dashboard. Modeled on the Automation Anywhere A360 device model.
-- **Scheduling** — cron, interval, daily, weekly, and monthly schedules with per-schedule
-  IANA timezone support, retry config, and failure alerts.
-- **Teams and RBAC** — `admin`, `editor`, and `viewer` roles. Non-admins see and run only scripts
-  in their team's granted folders, enforced across the UI, public API, and nested script calls.
-- **Active Directory** — AD/LDAP sign-in, user provisioning, group-to-role mapping, and a
-  background reconciling sync.
-- **Public REST API** — submit jobs, poll status, fetch logs and artifacts, and receive
-  HMAC-signed callback webhooks. Team-scoped API keys.
-- **Notifications and email** — admin in-app notices, email blasts, branded failure alerts,
-  welcome emails, and a first-login Terms and Conditions gate.
-- **Audit log, IP filtering, TLS** via a local IIS reverse proxy.
+**Script Wizard** is a self-hosted automation control platform for enterprise Windows
+environments. Teams register, organize, run, schedule, and monitor automations from a
+web dashboard or a REST API — with role-based access, AD sign-in, failure alerting, and
+full run history. Version 1.4 adds **desktop-automation runners**: dedicated devices that
+execute GUI/desktop scripts in a real interactive session, dispatched over a secure
+outbound WebSocket.
 
-### Technology
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🧩 Automation
+- 📂 Scripts in a **nested folder tree** with a Monaco editor
+- ⚡ Priority queue + worker pool, timeouts, retries, artifacts
+- 🖥️ **Desktop runners** — Normal (console auto-login) &amp; RDP
+- ⏰ Cron / interval / daily / weekly schedules, per-schedule **timezones**
+
+</td>
+<td width="50%" valign="top">
+
+### 🔐 Security &amp; access
+- 👥 **Teams &amp; RBAC** — admin / editor / viewer, folder-scoped
+- 🪪 **Active Directory** sign-in, provisioning, group→role sync
+- 🔑 Team-scoped **API keys** + HMAC-signed callbacks
+- 📨 Notifications, email blasts, first-login T&amp;C gate
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+## 🧱 Architecture
 
 | Layer | Stack |
-|---|---|
-| API / server | FastAPI (async), single uvicorn process |
-| Database | SQL Server via aioodbc (named `ScriptWizard`) |
-| Frontend | Vanilla JS + HTML, Monaco editor |
-| Auth | Cookie sessions + AD/LDAP + API keys |
-| Desktop runners | Outbound-WebSocket agent — LocalSystem Windows service, Win32 token APIs |
-| Schema | Model-driven, additive-only — never drops data |
+|:--|:--|
+| 🚀 **API / server** | FastAPI (async), single uvicorn process |
+| 🗄️ **Database** | SQL Server via `aioodbc` — database `ScriptWizard` |
+| 🎨 **Frontend** | Vanilla JS + HTML, Monaco editor |
+| 🔑 **Auth** | Cookie sessions + AD/LDAP + API keys |
+| 🖥️ **Desktop runners** | Outbound-WebSocket agent — LocalSystem service, Win32 token APIs |
+| 🧬 **Schema** | Model-driven, **additive-only** — never drops data |
 
----
+<br/>
 
-## Platform requirements
+## 📦 Downloads
 
-| Component | Requirement |
-|---|---|
-| OS | Windows Server 2016+ or Windows 10/11 (64-bit) |
-| Python | 3.11 or 3.12 (bundled offline in the Setup package) |
-| Database | SQL Server (any edition, including Express) + ODBC Driver 17 or 18 |
-| IIS | Optional — required only for HTTPS (ARR + URL Rewrite, installers bundled) |
-| Runner device | Windows 10/11 64-bit, Python 3.9–3.13, pywin32 |
-| FreeRDP | Required only for RDP deployment type on runner devices |
+> Latest release: **[v1.4.0](v1.4.0/)** · released 2026-08-05
 
----
+| Package | Size | Use it to… |
+|:--|--:|:--|
+| 🟣 **`ScriptWizard-1.4.0-Setup.zip`** | ~60 MB | **Install a fresh server** — bundles the Python 3.12 wheelhouse, fully offline |
+| 🔵 **`ScriptWizard-1.4.0-migrate.zip`** | ~1 MB | **Migrate** from Script Manager, or apply a same-brand server patch |
+| 🟢 **`ScriptWizard-Agent-1.4.0.zip`** | ~35 MB | **Install a desktop runner** on a device — bundles its own offline wheelhouse |
+| ⚪ **`ScriptWizard-Agent-1.4.0-patch.zip`** | ~110 KB | **Update an installed agent** — code-only, no reinstall, no wheelhouse |
 
-## Packages
+<br/>
 
-All packages are AES-256 encrypted. Use [7-Zip](https://www.7-zip.org) to extract.
+## 🚀 Quick start
 
-### Current release
-
-| Version | Release date |
-|---|---|
-| [v1.4.0](v1.4.0/) | 2026-08-05 |
-
-### Package types
-
-| Filename | Size | Use case |
-|---|---|---|
-| `ScriptWizard-<ver>-Setup.zip` | ~60 MB | Fresh server install. Includes offline Python wheelhouse — no internet required on the target machine. |
-| `ScriptWizard-<ver>-migrate.zip` | ~1 MB | Migrate an existing Script Manager install to Script Wizard, or apply a same-brand server code patch. |
-| `ScriptWizard-Agent-<ver>.zip` | ~5 MB | Fresh agent install on a runner device. Includes offline wheels for Python 3.9–3.13 + NSSM service host. |
-| `ScriptWizard-Agent-<ver>-patch.zip` | ~100 KB | Agent code-only update for an already-installed agent. No reinstall, no wheelhouse — just the source files. |
-
----
-
-## How to extract
-
-Standard Windows Explorer cannot open AES-256 encrypted zips. Use **7-Zip** (free):
-
-```
-Right-click the zip -> 7-Zip -> Extract Here -> enter password when prompted
-```
-
-Or from an elevated PowerShell if 7-Zip is on PATH:
+<details open>
+<summary><b>🟣 Fresh server install</b></summary>
 
 ```powershell
-7z x ScriptWizard-1.4.0-Setup.zip
-```
-
----
-
-## Quick start
-
-### Fresh server install
-
-```powershell
-# Extract ScriptWizard-<ver>-Setup.zip, then from an elevated PowerShell:
+# Extract ScriptWizard-1.4.0-Setup.zip (7-Zip → enter password), then elevated:
 cd ScriptWizard
 .\setup\install.ps1
 ```
+Installs to `C:\Program Files\Script Wizard` + `C:\ProgramData\Script Wizard`, registers
+the `ScriptWizard` service + SYSTEM watchdog, and optionally sets up HTTPS via IIS.
+Dashboard: `https://<host>/dashboard/`.
+</details>
 
-Installs to `C:\Program Files\Script Wizard` (code) and `C:\ProgramData\Script Wizard`
-(config, data, logs, scripts). Registers the `ScriptWizard` Windows service and a SYSTEM
-watchdog task. Optionally configures HTTPS via IIS.
-
-The dashboard is available at `https://<host>/dashboard/` after install.
-
-### Migrate from Script Manager (one-time)
+<details>
+<summary><b>🔵 Migrate from Script Manager</b></summary>
 
 ```powershell
-# Extract ScriptWizard-<ver>-migrate.zip, then from an elevated PowerShell:
 cd ScriptWizard
 .\setup\migrate.ps1
 ```
+Renames folders, tasks, firewall, IIS site, and the SQL database, then applies the 1.4.0
+update. Works from Script Manager 1.4.0 **and** 1.2.8. Snapshot the machine first.
+</details>
 
-Renames folders, tasks, firewall rules, the IIS site, and the SQL database from
-Script Manager to Script Wizard, then applies the 1.4.0 code update. Works from
-both Script Manager 1.4.0 and 1.2.8.
-
-### Same-brand server code patch (existing Script Wizard install)
-
-```powershell
-# Extract ScriptWizard-<ver>-migrate.zip, then from an elevated PowerShell:
-cd ScriptWizard
-.\setup\update.ps1
-```
-
-Overlays new code, runs additive schema migration, re-registers tasks, restarts the service.
-Add `-Deps` if the requirements.txt changed between versions.
-
-### Fresh agent install on a runner device
+<details>
+<summary><b>🟢 Install a desktop runner</b></summary>
 
 ```powershell
-# Extract ScriptWizard-Agent-<ver>.zip, then from an elevated PowerShell:
 cd ScriptWizard-Agent
 .\install.ps1 -ServerUrl https://your-server -EnrollToken rre_xxx -ProfileName prod
-# Or run without arguments for an interactive prompt
-.\install.ps1
 ```
+Installs the `ScriptWizardAgent` LocalSystem service (auto-start, auto-restart). The device
+appears **online** in the server's Devices page within seconds.
+</details>
 
-Installs to `C:\Program Files\ScriptWizard Agent` and `C:\ProgramData\ScriptWizard Agent`.
-Registers the `ScriptWizardAgent` Windows service (LocalSystem, auto-start, auto-restart).
-The device appears online in the server's Devices page within a few seconds.
-
-### Update an existing agent (no reinstall)
+<details>
+<summary><b>⚪ Update an installed agent (no reinstall)</b></summary>
 
 ```powershell
-# Extract ScriptWizard-Agent-<ver>-patch.zip, then from an elevated PowerShell:
 cd ScriptWizard-Agent-patch
-.\update-agent.ps1
-# Add -Deps if the requirements.txt changed
-.\update-agent.ps1 -Deps
+.\update-agent.ps1          # add -Deps if requirements.txt changed
+```
+Stops the service, overlays only the Python source (vendor binaries untouched), restarts.
+Under 30 seconds.
+</details>
+
+<br/>
+
+## 🗂️ Extracting
+
+Windows Explorer can't open AES-256 zips. Use **[7-Zip](https://www.7-zip.org)**:
+
+```text
+Right-click the zip → 7-Zip → Extract Here → enter the password
 ```
 
-Stops the service, overlays only the Python source files (vendor binaries are untouched),
-restarts the service. Takes under 30 seconds.
+<br/>
+
+## 💻 Platform requirements
+
+| Component | Requirement |
+|:--|:--|
+| 🪟 OS | Windows Server 2016+ or Windows 10/11 (64-bit) |
+| 🐍 Python | 3.11 / 3.12 (bundled offline in Setup) |
+| 🗄️ Database | SQL Server (any edition) + ODBC Driver 17/18 |
+| 🌐 IIS | Optional — only for HTTPS (installers bundled) |
+| 🖥️ Runner device | Windows 10/11, Python 3.9–3.13, pywin32 |
+| 🖧 FreeRDP | Only for the RDP deployment type |
+
+<br/>
 
 ---
 
-## Contact
+<div align="center">
 
-This repository is for **internal distribution only**. Packages are encrypted and not intended
-for public use.
+## 📬 Contact
 
-To obtain the zip password, or for any questions about deployment or the platform:
+**This repository is for internal distribution only.**
+Packages are encrypted and not intended for public use.
 
-**Arpan Mandal** — [arpan.mandal@accenture.com](mailto:arpan.mandal@accenture.com)
+Reach out for the zip password or any deployment questions:
+
+**Arpan Mandal**
+[![Email](https://img.shields.io/badge/arpan.mandal@accenture.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:arpan.mandal@accenture.com)
+
+<sub>Script Wizard 1.4.0 · Windows / on-prem · FastAPI + SQLAlchemy (SQL Server) + vanilla-JS dashboard</sub>
+
+</div>
