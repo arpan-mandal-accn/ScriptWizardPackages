@@ -12,9 +12,18 @@ migration is needed: patch both the server and the agent in place.
 > deployment types (no dependency on a reboot or on classic AutoAdminLogon firing), and
 > pre-warms that session the moment the server pushes the RunAs credential, so a device recovers
 > to a working state after any boot / sign-out with no manual step. Remote Desktop is enabled and
-> the RunAs account is granted the RDS logon right automatically. FreeRDP is winget-fetched by
-> install.ps1 / update-agent.ps1 if the device lacks it (not bundled). Update an existing device
-> with `update-agent.ps1` from the agent patch, no fresh install needed.
+> the RunAs account is granted the RDS logon right automatically. The **FreeRDP client
+> (`wfreerdp.exe`, GDI 3.23.1) is now bundled** in both the agent Setup and patch (install /
+> update-agent drop it onto the device; winget is only a last-resort fallback). The **Sign out
+> button is re-enabled** on runner devices (a sign-out now self-heals via on-demand session
+> creation). Update an existing device with `update-agent.ps1`, no fresh install needed.
+>
+> **Server packages rebuilt 2026-08-08 (In-Progress / queue page):** the queue view now shows
+> each job's **destination** (Server worker pool vs a specific desktop device vs a device pool)
+> and its **position within that destination** (queues drain in parallel, so no misleading global
+> number); desktop jobs show a live **Waiting -> Connecting -> Running** state; and the elapsed
+> timer starts only at the ACTUAL execution start, not at claim/queue time. Compact single-line
+> table density so nothing overflows.
 
 ## Packages
 
