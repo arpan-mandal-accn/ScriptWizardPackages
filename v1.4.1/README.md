@@ -5,8 +5,16 @@ migration is needed: patch both the server and the agent in place.
 
 > **Rebuilt 2026-08-08:** server Setup + patch refreshed with Users-page fixes (Teams
 > column now shows one team with a "+N" hover popover, and the role + "manual" chips sit
-> side by side) plus the run-dialog tidy. The agent packages are unchanged from the
-> initial 1.4.1 build.
+> side by side) plus the run-dialog tidy.
+>
+> **Agent packages rebuilt 2026-08-08 (desktop-runner reliability):** the agent now creates the
+> RunAs interactive session ON DEMAND via a loopback RDP logon for BOTH the `normal` and `rdp`
+> deployment types (no dependency on a reboot or on classic AutoAdminLogon firing), and
+> pre-warms that session the moment the server pushes the RunAs credential, so a device recovers
+> to a working state after any boot / sign-out with no manual step. Remote Desktop is enabled and
+> the RunAs account is granted the RDS logon right automatically. FreeRDP is winget-fetched by
+> install.ps1 / update-agent.ps1 if the device lacks it (not bundled). Update an existing device
+> with `update-agent.ps1` from the agent patch, no fresh install needed.
 
 ## Packages
 
