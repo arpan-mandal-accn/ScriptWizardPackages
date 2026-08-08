@@ -3,6 +3,11 @@
 Quality, reliability, and observability release on top of 1.4.0. Same brand, so no
 migration is needed: patch both the server and the agent in place.
 
+> **Rebuilt 2026-08-08:** server Setup + patch refreshed with Users-page fixes (Teams
+> column now shows one team with a "+N" hover popover, and the role + "manual" chips sit
+> side by side) plus the run-dialog tidy. The agent packages are unchanged from the
+> initial 1.4.1 build.
+
 ## Packages
 
 | File | Size | Description |
