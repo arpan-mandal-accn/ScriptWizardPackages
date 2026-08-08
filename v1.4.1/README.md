@@ -23,7 +23,16 @@ migration is needed: patch both the server and the agent in place.
 > and its **position within that destination** (queues drain in parallel, so no misleading global
 > number); desktop jobs show a live **Waiting -> Connecting -> Running** state; and the elapsed
 > timer starts only at the ACTUAL execution start, not at claim/queue time. Compact single-line
-> table density so nothing overflows.
+> table density so nothing overflows. The job-detail popup honours the same phase (no ticking
+> timer while Waiting/Connecting).
+>
+> **Rebuilt 2026-08-09 (desktop session creation on locked-down devices):** the agent now handles
+> an enforced **interactive-logon legal banner** (the "you are accessing ..." OK screen) that was
+> silently blocking unattended logons, it suppresses the banner only for the few seconds of the
+> RunAs auto-logon and restores it immediately (equivalent to A360's LegalNoticeHandler; real
+> users and GPO are unaffected). Loopback FreeRDP now runs **headless** (`/gdi:sw /disable-output`)
+> so it works from the Session-0 service, and every FreeRDP line is written to `agent.log` for
+> diagnosis. Update devices with `update-agent.ps1`.
 
 ## Packages
 
