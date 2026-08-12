@@ -78,7 +78,7 @@ outbound WebSocket.
 
 ## 📦 Downloads
 
-> Latest release: **[v1.4.2](v1.4.2/)** · released 2026-08-10
+> Latest release: **[v1.4.2](v1.4.2/)** · released 2026-08-12
 
 | Package | Size | Use it to |
 |:--|--:|:--|
