@@ -78,7 +78,13 @@ outbound WebSocket.
 
 ## 📦 Downloads
 
-> Latest release: **[v1.4.2](v1.4.2/)** · released 2026-08-12
+> Latest release: **[v1.4.2](v1.4.2/)** · released 2026-08-12 · **packages rebuilt 2026-08-17**
+
+> ⚠️ **Pulled 1.4.2 before 17 Aug 2026? Re-download.** All four zips were rebuilt to fix six
+> regressions, three of them introduced by 1.4.2 itself: a "Run test" that failed on any script
+> slower than 30 seconds, every loading spinner frozen on Cloud PC / VDI, and an agent session
+> pre-warm that never ran. Same version number, new zips - apply **both** the server and agent
+> patches. Details in the **[v1.4.2 notes](v1.4.2/#fixed-in-the-2026-08-17-rebuild)**.
 
 | Package | Size | Use it to |
 |:--|--:|:--|

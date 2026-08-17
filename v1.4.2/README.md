@@ -1,8 +1,17 @@
-# v1.4.2 - 2026-08-12
+# v1.4.2 - 2026-08-12 (packages rebuilt 2026-08-17)
 
 Security, reliability, and UX release on top of 1.4.1. Same brand, so no migration is needed:
 patch both the server and the agent in place. Both the server AND the agent changed this cycle,
 so update both.
+
+> ### Rebuilt 2026-08-17 - re-download if you pulled 1.4.2 before this date
+>
+> All four packages were rebuilt to fix six regressions found in the original 1.4.2 build. Three
+> were introduced by 1.4.2's own hardening work, which is why they did not exist in 1.4.1. The
+> version number is unchanged; the zips are not. See
+> **[Fixed in the 2026-08-17 rebuild](#fixed-in-the-2026-08-17-rebuild)** below.
+>
+> Both the server and the agent are affected, so apply both patches.
 
 ## Packages
 
@@ -22,6 +31,52 @@ so update both.
 > The new `ARTIFACT_RETENTION_DAYS` setting seeds on the first restart (default `0` = no change).
 
 Password: shared separately.
+
+## Fixed in the 2026-08-17 rebuild
+
+Six fixes. The first three are regressions that 1.4.2's own hardening introduced, so they are not
+present in 1.4.1 - if 1.4.2 felt like a step backwards in these areas, this is why.
+
+### Server / dashboard
+
+- **"Run test" failed on any script slower than 30 seconds.** The dashboard applied a blanket 30s
+  abort to every API call, including the endpoints that run a script synchronously and are therefore
+  bounded by the *script's* own timeout. A 35-second script under a 60-second timeout reported "The
+  server took too long to respond" while the run was still going, and completed normally in Run
+  History. A test run is now limited only by the script's `Timeout (s)`; ordinary calls keep the 30s
+  protection. "Run now" (not in background) had the same flaw and now waits for the script's timeout
+  plus a margin.
+- **The Timeout (s) box had no effect on a test run.** The editor never sent `timeout_seconds`, so
+  the server silently used its own default. It is now sent, which also means a test is exempt from
+  the `SYNC_AUTO_ASYNC_SECONDS` auto-promotion, as intended.
+- **Every loading spinner was frozen** on any machine with Windows animation effects turned off -
+  the default on most Cloud PC and VDI images, in both Edge and Chrome. The new
+  `prefers-reduced-motion` support reset *all* animations, including the spinner, so a running job
+  looked hung. The spinner is now exempt (and slowed to 1.6s, calmer than the default); decorative
+  motion is still suppressed.
+- **The HTML sanitizer silently truncated stored content.** Pasting markup containing a void element
+  (`<input>`, `<meta>`, `<link>`, `<base>`, `<embed>`) into a notification or the T&C text discarded
+  everything after it, and the truncated value was saved. `<p>before</p><input><p>after</p>` became
+  `<p>before</p>`.
+- **Client-side sanitizer bypass.** A single unknown wrapper tag smuggled its children past the
+  filter: `<font><img src=x onerror=...></font>` survived intact, while a bare `<img>` was correctly
+  stripped. Defence-in-depth on an admin-authored path, but fixed. Both sanitizers now have
+  regression tests.
+
+### Agent (runner devices)
+
+- **The auto-login session pre-warm never worked.** Its arguments were passed in the wrong order
+  (`domain` and `os_user` swapped against the function's signature), so on a domain-joined device the
+  logon failed as a non-existent user, and on a device using a local account - a Cloud PC - the
+  function returned immediately and did nothing at all. Both failures were swallowed as
+  "best-effort", so the only symptom was the thing the feature was meant to remove: the first
+  desktop run after a boot or sign-out still had to build the session itself. Fixed, and the two
+  arguments are now passed by name.
+- Loopback RDP logons are now **serialised**, and reuse an existing session rather than logging on a
+  second time. The legal-notice suppression they depend on is a machine-wide setting, so two
+  overlapping logons could restore the logon banner while the other was still at the prompt -
+  reintroducing the stall that suppression exists to prevent. This became reachable only once the
+  pre-warm above started working.
 
 ## What's new in 1.4.2
 
