@@ -85,6 +85,9 @@ outbound WebSocket.
 > slower than 30 seconds, every loading spinner frozen on Cloud PC / VDI, and an agent session
 > pre-warm that never ran. Same version number, new zips - apply **both** the server and agent
 > patches. Details in the **[v1.4.2 notes](v1.4.2/#fixed-in-the-2026-08-17-rebuild)**.
+>
+> Already took a 17 Aug build earlier that day? Only the two **server** zips changed after it; both
+> agent zips are unchanged, so your devices need nothing.
 
 | Package | Size | Use it to |
 |:--|--:|:--|

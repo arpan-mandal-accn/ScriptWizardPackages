@@ -12,6 +12,10 @@ so update both.
 > **[Fixed in the 2026-08-17 rebuild](#fixed-in-the-2026-08-17-rebuild)** below.
 >
 > Both the server and the agent are affected, so apply both patches.
+>
+> *Already took a 2026-08-17 build earlier in the day?* Only the two **server** zips changed after
+> that: `ScriptWizard-1.4.2-Setup.zip` and `ScriptWizard-1.4.2-patch.zip`. Both agent zips are
+> unchanged and byte-identical, so there is nothing to re-apply on your devices.
 
 ## Packages
 
@@ -43,9 +47,17 @@ present in 1.4.1 - if 1.4.2 felt like a step backwards in these areas, this is w
   abort to every API call, including the endpoints that run a script synchronously and are therefore
   bounded by the *script's* own timeout. A 35-second script under a 60-second timeout reported "The
   server took too long to respond" while the run was still going, and completed normally in Run
-  History. A test run is now limited only by the script's `Timeout (s)`; ordinary calls keep the 30s
-  protection. "Run now" (not in background) had the same flaw and now waits for the script's timeout
-  plus a margin.
+  History.
+
+  The endpoints that run a script and wait now get **no client-side limit at all** - `/scripts/test`,
+  a manual `/scripts/{id}/run`, and a manual schedule run. The script's `Timeout (s)` is the only
+  limit, enforced and reported by the server. Every other call keeps the 30s protection against a
+  dead proxy. The rule lives in one place, keyed on the endpoint, so no caller can omit it.
+
+  A **scheduled or API-triggered** run is unchanged and already behaved correctly: it waits up to
+  `SYNC_AUTO_ASYNC_SECONDS`, and if the job is still going it is promoted to async (the caller gets a
+  `job_id` to poll) while the job continues under the script's own timeout. A script flagged
+  **Long-running** goes async immediately over the public API, so it never waits at all.
 - **The Timeout (s) box had no effect on a test run.** The editor never sent `timeout_seconds`, so
   the server silently used its own default. It is now sent, which also means a test is exempt from
   the `SYNC_AUTO_ASYNC_SECONDS` auto-promotion, as intended.
