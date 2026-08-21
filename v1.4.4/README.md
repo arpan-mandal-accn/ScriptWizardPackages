@@ -119,3 +119,8 @@ Password: shared separately.
   Nearly all motion in this dashboard is status rather than decoration, so suppressing it makes
   the UI report the wrong thing. Users who genuinely set the OS preference will now see these
   animations; that is a deliberate trade-off.
+
+  A follow-on fix: the status pulses themselves were using `ease-out`, which finishes the ring's
+  expansion in the first fraction of each cycle and leaves a long flat tail - so the In Progress
+  "live" dot, and the Connected / Busy / connecting device dots, read as static even when they
+  were animating. They now use default easing and pulse visibly.
