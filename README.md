@@ -10,7 +10,7 @@ access, Active Directory sign-in, and desktop-automation runners.
 
 <br/>
 
-![Version](https://img.shields.io/badge/version-1.4.2-6D28D9?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.4.4-6D28D9?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3.11%20|%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Packages](https://img.shields.io/badge/packages-AES--256-16A34A?style=for-the-badge&logo=gnuprivacyguard&logoColor=white)
@@ -78,27 +78,30 @@ outbound WebSocket.
 
 ## 📦 Downloads
 
-> Latest release: **[v1.4.2](v1.4.2/)** · released 2026-08-12 · **packages rebuilt 2026-08-17**
+> Latest release: **[v1.4.4](v1.4.4/)** · released 2026-08-21 · *(1.4.3 was skipped)*
 
-> ⚠️ **Pulled 1.4.2 before 17 Aug 2026? Re-download.** All four zips were rebuilt to fix six
-> regressions, three of them introduced by 1.4.2 itself: a "Run test" that failed on any script
-> slower than 30 seconds, every loading spinner frozen on Cloud PC / VDI, and an agent session
-> pre-warm that never ran. Same version number, new zips - apply **both** the server and agent
-> patches. Details in the **[v1.4.2 notes](v1.4.2/#fixed-in-the-2026-08-17-rebuild)**.
+> ⚠️ **Two things to check before you upgrade to 1.4.4.**
 >
-> Already took a 17 Aug build earlier that day? Only the two **server** zips changed after it; both
-> agent zips are unchanged, so your devices need nothing.
+> **Your devices' RDP Width / Height / Port now actually take effect.** The server has pushed those
+> settings since 1.4 and the agent never read them, so every device silently ran **1920x1080 on
+> port 3389**. Any device configured otherwise will change session resolution - and screenshot
+> size - after this patch.
+>
+> **Dashboard preferences reset once**, because they are now stored per user rather than per
+> browser. Full detail in the **[v1.4.4 notes](v1.4.4/)**.
+>
+> **Both the server and the agent changed** - apply both patches.
 
 | Package | Size | Use it to |
 |:--|--:|:--|
-| 🟣 **`ScriptWizard-1.4.2-Setup.zip`** | ~60 MB | **Install a fresh server** - bundles the Python 3.12 wheelhouse, fully offline (guide in `setup\INSTALL.html`) |
-| 🟡 **`ScriptWizard-1.4.2-patch.zip`** | ~0.6 MB | **Update an existing Script Wizard server** - same-brand, in-place code patch |
-| 🟢 **`ScriptWizard-Agent-1.4.2.zip`** | ~39 MB | **Install a desktop runner** on a device - bundles its own offline wheelhouse |
-| ⚪ **`ScriptWizard-Agent-1.4.2-patch.zip`** | ~3.9 MB | **Update an installed agent** - code + FreeRDP, no reinstall, no wheelhouse |
+| 🟣 **`ScriptWizard-1.4.4-Setup.zip`** | ~60 MB | **Install a fresh server** - bundles the Python 3.12 wheelhouse, fully offline (guide in `setup\INSTALL.html`) |
+| 🟡 **`ScriptWizard-1.4.4-patch.zip`** | ~0.6 MB | **Update an existing Script Wizard server** - same-brand, in-place code patch |
+| 🟢 **`ScriptWizard-Agent-1.4.4.zip`** | ~38 MB | **Install a desktop runner** on a device - bundles its own offline wheelhouse |
+| ⚪ **`ScriptWizard-Agent-1.4.4-patch.zip`** | ~3.8 MB | **Update an installed agent** - code + FreeRDP, no reinstall, no wheelhouse |
 
 > Converting a legacy **Script Manager** box? Run the one-time `migrate.ps1` from
-> **[v1.4.0](v1.4.0/)** (`ScriptWizard-1.4.0-migrate.zip`) first, then apply the 1.4.2 patch.
-> 1.4.2 is same-brand, so it ships no migrate zip.
+> **[v1.4.0](v1.4.0/)** (`ScriptWizard-1.4.0-migrate.zip`) first, then apply the 1.4.4 patch.
+> 1.4.4 is same-brand, so it ships no migrate zip.
 
 <br/>
 
@@ -108,7 +111,7 @@ outbound WebSocket.
 <summary><b>🟣 Fresh server install</b></summary>
 
 ```powershell
-# Extract ScriptWizard-1.4.2-Setup.zip (7-Zip → enter password), then elevated:
+# Extract ScriptWizard-1.4.4-Setup.zip (7-Zip → enter password), then elevated:
 cd ScriptWizard
 .\setup\install.ps1
 ```
@@ -132,7 +135,7 @@ update. Works from Script Manager 1.4.0 **and** 1.2.8. Snapshot the machine firs
 <summary><b>🟡 Patch an existing Script Wizard server</b></summary>
 
 ```powershell
-# Already running Script Wizard? Extract ScriptWizard-1.4.2-patch.zip, then elevated:
+# Already running Script Wizard? Extract ScriptWizard-1.4.4-patch.zip, then elevated:
 cd ScriptWizard
 .\setup\update.ps1 -Deps
 ```
@@ -202,6 +205,6 @@ Reach out for the zip password or any deployment questions:
 **Arpan Mandal**
 [![Email](https://img.shields.io/badge/arpan.mandal@accenture.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:arpan.mandal@accenture.com)
 
-<sub>Script Wizard 1.4.2 · Windows / on-prem · FastAPI + SQLAlchemy (SQL Server) + vanilla-JS dashboard</sub>
+<sub>Script Wizard 1.4.4 · Windows / on-prem · FastAPI + SQLAlchemy (SQL Server) + vanilla-JS dashboard</sub>
 
 </div>
