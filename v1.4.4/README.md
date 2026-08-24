@@ -41,15 +41,24 @@ Password: shared separately.
 
 ### Desktop runs (agent-side - needs the agent patch)
 
-- **Screenshots taken during a desktop run came back black.** A job was launched into whatever
-  RunAs session already existed, and `find_user_session` matched a session whether it was active
-  **or disconnected**. A disconnected session is still logged in and still runs processes, but
-  Windows tears down its display surface when the last RDP client detaches - so `pyautogui`,
-  `PIL.ImageGrab` and `mss` all captured solid black. It only worked while someone happened to be
-  watching the session, because their client supplied the surface.
+- **Screenshots taken during a desktop run came back black.** A job runs in whatever RunAs
+  session exists, and a session is not necessarily a *drawing* one: when the last RDP client
+  detaches, Windows tears down its display surface. Processes keep running, so the job executes
+  correctly and drives SAP GUI perfectly well, while `pyautogui`, `PIL.ImageGrab` and `mss` all
+  capture solid black. It appeared to work only while somebody was attached, because their client
+  supplied the surface.
 
-  A disconnected session is now **reconnected** for the duration of the run, which restores the
-  framebuffer. An active session that somebody is watching is left completely untouched.
+  A session that is not rendering is now **redirected onto the machine's console** with
+  `tscon /dest:console`, after which it keeps drawing with **no client attached at all**. This is
+  the mechanism the RPA tools use for the same symptom. A session that IS rendering is left
+  completely alone, so watching a run over RDP is never interrupted, and the redirect is declined
+  outright if a different user holds the console seat, since taking it would sign them out.
+
+  The agent also reports, read-only at startup, the three machine prerequisites Automation 360
+  documents for its own unattended runners (`DisableCAD`, `fPromptForPassword`,
+  `fDenyTSConnections`). It changes none of them, but an unattended logon that stalls, or a
+  screenshot that shows a password prompt instead of a desktop, now names its own cause in the
+  log.
 - **A session locked by `post_run_action=lock` could not be automated or captured** (the lock
   screen lives on the Winlogon secure desktop). Such a session is now reconnected, which resumes
   it unlocked. Lock detection was also made reliable - it now probes for `LogonUI.exe` in the
