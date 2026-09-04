@@ -39,6 +39,13 @@ patches.**
 
 Password: shared separately.
 
+> **The two server zips were rebuilt on 2026-09-05 after first publication.** The original
+> build carried three dashboard regressions: the Test panel's expand button opened an
+> invisible popup, a dropdown ignored the width its page set and filled the whole row, and
+> the script editor's right panel dropped below the code below 1001px. If you downloaded
+> `ScriptWizard-1.4.5-Setup.zip` or `ScriptWizard-1.4.5-patch.zip` before this note appeared,
+> take them again. The two agent zips are unchanged and do not need re-downloading.
+
 ## Added
 
 ### Two new roles
