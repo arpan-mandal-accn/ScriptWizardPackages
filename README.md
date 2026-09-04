@@ -10,7 +10,7 @@ access, Active Directory sign-in, and desktop-automation runners.
 
 <br/>
 
-![Version](https://img.shields.io/badge/version-1.4.4-6D28D9?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.4.5-6D28D9?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3.11%20|%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Packages](https://img.shields.io/badge/packages-AES--256-16A34A?style=for-the-badge&logo=gnuprivacyguard&logoColor=white)
@@ -52,7 +52,7 @@ outbound WebSocket.
 <td width="50%" valign="top">
 
 ### 🔐 Security &amp; access
-- 👥 **Teams &amp; RBAC** - admin / editor / viewer, folder-scoped
+- 👥 **Teams &amp; RBAC** - 5 roles, capability-based, folder-scoped
 - 🪪 **Active Directory** sign-in, provisioning, group→role sync
 - 🔑 Team-scoped **API keys** + HMAC-signed callbacks
 - 📨 Notifications, email blasts, first-login T&amp;C gate
@@ -78,30 +78,31 @@ outbound WebSocket.
 
 ## 📦 Downloads
 
-> Latest release: **[v1.4.4](v1.4.4/)** · released 2026-08-21 · *(1.4.3 was skipped)*
+> Latest release: **[v1.4.5](v1.4.5/)** · released 2026-09-05
 
-> ⚠️ **Two things to check before you upgrade to 1.4.4.**
+> ⚠️ **Check this before you upgrade to 1.4.5.**
 >
-> **Your devices' RDP Width / Height / Port now actually take effect.** The server has pushed those
-> settings since 1.4 and the agent never read them, so every device silently ran **1920x1080 on
-> port 3389**. Any device configured otherwise will change session resolution - and screenshot
-> size - after this patch.
+> **An unrecognised role used to receive full write access.** The old permission gate denied
+> exactly one role name, so anything it did not recognise fell through with author rights.
+> Permissions now resolve from a capability table and an unknown role gets nothing. If you have
+> ever written a role value straight into the database, re-check those accounts.
 >
-> **Dashboard preferences reset once**, because they are now stored per user rather than per
-> browser. Full detail in the **[v1.4.4 notes](v1.4.4/)**.
+> **Existing Administrator / Editor / Viewer accounts are unaffected.** The two new roles,
+> **Platform Manager** and **Operator**, are opt-in per user. Full detail in the
+> **[v1.4.5 notes](v1.4.5/)**.
 >
 > **Both the server and the agent changed** - apply both patches.
 
 | Package | Size | Use it to |
 |:--|--:|:--|
-| 🟣 **`ScriptWizard-1.4.4-Setup.zip`** | ~60 MB | **Install a fresh server** - bundles the Python 3.12 wheelhouse, fully offline (guide in `setup\INSTALL.html`) |
-| 🟡 **`ScriptWizard-1.4.4-patch.zip`** | ~0.6 MB | **Update an existing Script Wizard server** - same-brand, in-place code patch |
-| 🟢 **`ScriptWizard-Agent-1.4.4.zip`** | ~38 MB | **Install a desktop runner** on a device - bundles its own offline wheelhouse |
-| ⚪ **`ScriptWizard-Agent-1.4.4-patch.zip`** | ~3.8 MB | **Update an installed agent** - code + FreeRDP, no reinstall, no wheelhouse |
+| 🟣 **`ScriptWizard-1.4.5-Setup.zip`** | ~63 MB | **Install a fresh server** - bundles the Python 3.12 wheelhouse, fully offline (guide in `setup\INSTALL.html`) |
+| 🟡 **`ScriptWizard-1.4.5-patch.zip`** | ~0.7 MB | **Update an existing Script Wizard server** - same-brand, in-place code patch |
+| 🟢 **`ScriptWizard-Agent-1.4.5.zip`** | ~40 MB | **Install a desktop runner** on a device - bundles its own offline wheelhouse |
+| ⚪ **`ScriptWizard-Agent-1.4.5-patch.zip`** | ~4 MB | **Update an installed agent** - code + FreeRDP, no reinstall, no wheelhouse |
 
 > Converting a legacy **Script Manager** box? Run the one-time `migrate.ps1` from
-> **[v1.4.0](v1.4.0/)** (`ScriptWizard-1.4.0-migrate.zip`) first, then apply the 1.4.4 patch.
-> 1.4.4 is same-brand, so it ships no migrate zip.
+> **[v1.4.0](v1.4.0/)** (`ScriptWizard-1.4.0-migrate.zip`) first, then apply the 1.4.5 patch.
+> 1.4.5 is same-brand, so it ships no migrate zip.
 
 <br/>
 
@@ -111,7 +112,7 @@ outbound WebSocket.
 <summary><b>🟣 Fresh server install</b></summary>
 
 ```powershell
-# Extract ScriptWizard-1.4.4-Setup.zip (7-Zip → enter password), then elevated:
+# Extract ScriptWizard-1.4.5-Setup.zip (7-Zip → enter password), then elevated:
 cd ScriptWizard
 .\setup\install.ps1
 ```
@@ -135,13 +136,13 @@ update. Works from Script Manager 1.4.0 **and** 1.2.8. Snapshot the machine firs
 <summary><b>🟡 Patch an existing Script Wizard server</b></summary>
 
 ```powershell
-# Already running Script Wizard? Extract ScriptWizard-1.4.4-patch.zip, then elevated:
+# Already running Script Wizard? Extract ScriptWizard-1.4.5-patch.zip, then elevated:
 cd ScriptWizard
-.\setup\update.ps1 -Deps
+.\setup\update.ps1
 ```
 In-place code overlay only - **no rebrand/rename**. Stops the service, overwrites the app
 code (nothing deleted), runs the additive schema migration, re-registers the SYSTEM
-watchdog, restarts. Drop `-Deps` if `requirements.txt` is unchanged.
+watchdog, restarts. 1.4.5 changes no dependencies, so `-Deps` is not needed.
 </details>
 
 <details>
@@ -205,6 +206,6 @@ Reach out for the zip password or any deployment questions:
 **Arpan Mandal**
 [![Email](https://img.shields.io/badge/arpan.mandal@accenture.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:arpan.mandal@accenture.com)
 
-<sub>Script Wizard 1.4.4 · Windows / on-prem · FastAPI + SQLAlchemy (SQL Server) + vanilla-JS dashboard</sub>
+<sub>Script Wizard 1.4.5 · Windows / on-prem · FastAPI + SQLAlchemy (SQL Server) + vanilla-JS dashboard</sub>
 
 </div>
