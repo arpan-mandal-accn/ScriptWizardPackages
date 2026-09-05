@@ -39,12 +39,13 @@ patches.**
 
 Password: shared separately.
 
-> **The two server zips were rebuilt on 2026-09-05 after first publication.** The original
-> build carried three dashboard regressions: the Test panel's expand button opened an
-> invisible popup, a dropdown ignored the width its page set and filled the whole row, and
-> the script editor's right panel dropped below the code below 1001px. If you downloaded
-> `ScriptWizard-1.4.5-Setup.zip` or `ScriptWizard-1.4.5-patch.zip` before this note appeared,
-> take them again. The two agent zips are unchanged and do not need re-downloading.
+> **The two server zips were rebuilt twice on 2026-09-05 after first publication. Take the
+> current ones.** The first build carried three dashboard regressions: the Test panel's expand
+> button opened an invisible popup, a dropdown ignored the width its page set and filled the
+> whole row, and the script editor's right panel dropped below the code below 1001px. The
+> second rebuild adds the low-frame-rate work below. Only
+> `ScriptWizard-1.4.5-Setup.zip` and `ScriptWizard-1.4.5-patch.zip` changed; both agent zips
+> are untouched and do not need re-downloading.
 
 ## Added
 
@@ -121,6 +122,14 @@ Password: shared separately.
 - Motion pass: navigation sections and all three folder trees fold instead of snapping,
   modals, toasts and rows animate out as well as in, controls have a press state again, and
   confirm dialogs gained a close button.
+- **Tuned for low frame rates.** A Cloud PC runs at roughly 10-30fps, software-renders, then
+  streams every painted frame, so an animation costs (frames) x (paint area). The modal
+  backdrop now dims in a single frame instead of fading over 250ms, which at that frame rate
+  banded rather than blended. Dropdowns open in 80ms and no longer scale, because scaling a
+  box containing text and a blurred shadow re-rasterizes both on every frame. Press feedback
+  on folder tiles and the breadcrumb drops to 80ms, since it fires on mouse-down and overlaps
+  the fetch it triggers. Lists fade in over 100ms rather than rising 8px over 180ms, which
+  also removed the container clipping the rise had needed to stop a scrollbar flashing.
 - The login page has a new animated background.
 
 ## Removed
