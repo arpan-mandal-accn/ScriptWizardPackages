@@ -39,6 +39,12 @@ patches.**
 
 Password: shared separately.
 
+> **`ScriptWizard-Confluence-Docs.zip` is not a product package.** It is the documentation
+> set for Confluence (six pages in storage format, their diagrams and screenshots, and a
+> PowerShell script that publishes the whole tree in one run) parked here as a one-off
+> because it was too large to send by mail. Extract it and read `README.txt` inside. Same
+> password as the packages above. Nothing in it is needed to install or run Script Wizard.
+
 > **The two server zips were rebuilt twice on 2026-09-05 after first publication. Take the
 > current ones.** The first build carried three dashboard regressions: the Test panel's expand
 > button opened an invisible popup, a dropdown ignored the width its page set and filled the
