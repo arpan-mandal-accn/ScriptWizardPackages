@@ -63,8 +63,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-49393d910186d9671a777f4e23be2535bfdb369c1e1699e195a3f4174e953f56  ScriptWizard-1.5.0-Setup.zip
-e62a470d99068dadf2d5eb6a3884e2d71b97610e7b769cdfd36245d5a15da683  ScriptWizard-1.5.0-patch.zip
+549af78883183c61c0e04ac965824657cfc36ea1fc2011705752a6670fc74115  ScriptWizard-1.5.0-Setup.zip
+db883de14ee2b935c85151b855a54063ec27288e6e1056d29fbf99161cf77322  ScriptWizard-1.5.0-patch.zip
 a81e6de5f7019b4ce1104f58bc52df9679220af8dabdd747ec35eaca79f64848  ScriptWizard-Agent-1.5.0.zip
 d7677b4a6376ddf525bbc3d0e773de7a6171bc5151905534a61404631c46b907  ScriptWizard-Agent-1.5.0-patch.zip
 ```
