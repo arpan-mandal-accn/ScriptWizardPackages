@@ -63,8 +63,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-04dc96d085a4a7b95574f90c02bd6e7d0b7d3b1b700a7659fe4533d55fe9ebf1  ScriptWizard-1.5.0-Setup.zip
-e0109a0d25f5dcdaf924f00b06c0cc4460ee699ca600981ce0b1f02c69f69c70  ScriptWizard-1.5.0-patch.zip
+7b9c601725d540db17f8c65bfc22f934b7e32d785c20e2db0eb1a9e032d98605  ScriptWizard-1.5.0-Setup.zip
+70a531132671033ed82e00b056ffdd589520dd7d65218dd264bc9ec934d0750d  ScriptWizard-1.5.0-patch.zip
 a81e6de5f7019b4ce1104f58bc52df9679220af8dabdd747ec35eaca79f64848  ScriptWizard-Agent-1.5.0.zip
 d7677b4a6376ddf525bbc3d0e773de7a6171bc5151905534a61404631c46b907  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -133,6 +133,9 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 
 ### Dashboard
 
+- **A new sign-in page.** The Accenture and Script Wizard logos are drawn in particles
+  that blow away and reform as each other; the sign-in card sits on the right, with a theme
+  switch. The animation is built for Cloud PCs and stops as soon as you sign in.
 - **API key Usage tab.** Runs per day for a week, with failed runs and rejected submissions,
   paging back week by week. A disabled key can be **enabled again**.
 - **Multi-select.**
@@ -158,7 +161,9 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **The Save button shows when there is something to save.** It is a blue outline normally and
   filled soft blue while something is unsaved.
 - **Recovered drafts.** A recovered draft is one amber line in the header with Restore and ✕. It
-  shortens on narrow windows and moves to its own row if needed.
+  shortens on narrow windows and moves to its own row if needed; a long description never hides
+  its date.
+- **Edit details saves on its own.** Save details stores the name and description straight away.
 - **More room for the code.**
   - The editor's tools share one compact row with the "Source code" title.
   - The editor is at least 380 px tall.
@@ -207,7 +212,9 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   runs are now detached and stay in Run History.
 - **Saving a script created a new version even when only its settings or description changed.**
   A version is now created only when the code or the name changes.
-- **Dark mode flashed white** while the script editor and Libraries pages loaded.
+- **Dark mode flashed white** while the script editor, Libraries and sign-in pages loaded.
+- **OneDrive could not sync backups** ("No access permissions to the item") when the server ran as
+  a service. A backup is now copied into its folder, so it takes that folder's permissions.
 - **On the Users page, the "+N" list of a user's other teams was cut off.**
 - **The Refresh button's tick could get stuck** (and spin) when Refresh was pressed again.
 - **A broken stylesheet comment** silently dropped the script editor toolbar's layout rule.
