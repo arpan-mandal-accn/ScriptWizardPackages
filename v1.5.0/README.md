@@ -64,8 +64,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-a4725b398f5c2638d9fa9ff43e0f00a26fa33685e41cc14adb740b5edc1a1d6d  ScriptWizard-1.5.0-Setup.zip
-f93487ce34c8a2dbcde642c6e3f7a189edcde5ff596a67d00402db268480aacd  ScriptWizard-1.5.0-patch.zip
+7bca10ade9cfddb63ec980948a095d2e2fc6a6f96910d1fd0dcf065573d3f6a8  ScriptWizard-1.5.0-Setup.zip
+e181d9d93c3aac18842c506322ebaf566384b59a13a0cb24761dc91ad473ad2a  ScriptWizard-1.5.0-patch.zip
 9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
 a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -160,8 +160,9 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **Preview** opens the email in a new tab; **Send now** sends it straight away. It is built for
   Outlook: up to 900 px wide (720 px in classic Outlook), and it rearranges itself on phones.
   Subjects start with "Script Wizard", and the inbox preview shows the highlights.
-- **The header carries the "Reinvented with Accenture" logo**, built from text so it shows in every
-  mail client (no image to download), and linking to accenture.com. Phones show only the chevron.
+- **The header carries the "Reinvented with Accenture" logo**, embedded in the email itself so it
+  shows without a download prompt in Outlook and Gmail, and linking to accenture.com. Phones show
+  only the chevron.
 - **A dark closing band** reads "GenWizard · Automation Platform Team", which opens an email to
   Cardinal.AutomationPrimeTeam@accenture.com, and "Internal use only · Not for external distribution".
 
@@ -272,6 +273,13 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **Dark mode flashed white** while the script editor, Libraries and sign-in pages loaded.
 - **OneDrive could not sync backups** ("No access permissions to the item") when the server ran as
   a service. A backup is now copied into its folder, so it takes that folder's permissions.
+- **Script Wizard's emails looked broken in classic Outlook**: sections ran together, buttons
+  showed as highlighted text, charts and bars fell apart, details tables had very tall rows, and
+  symbols such as the status dots arrived as "$B!|" (Outlook sent them in a Japanese encoding).
+  The summary email and every notification email (failure and anomaly alerts, the welcome email,
+  notices) are now built for Outlook's Word engine: spacing, rules and bars are table cells,
+  buttons are rounded shapes, and dots and arrows are drawn without special characters. The alert
+  text also keeps its line breaks.
 - **PowerShell libraries could stop importing** ("no valid module file was found") until their
   folder was added to the machine path by hand, and a Windows update or group policy could remove
   that entry again. The server now puts its library folder on the module path itself when it
