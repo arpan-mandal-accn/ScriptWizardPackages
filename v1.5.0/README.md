@@ -46,7 +46,8 @@ build was never released, and its changes ship here.
 > - a new `schedule_triggers` table;
 > - a `runs_per_minute` column on `api_keys` and `scripts`;
 > - a `run_limit_period` column on `scripts`;
-> - new setting rows for backups.
+> - new setting rows for backups;
+> - an `incident_number` column on `anomaly_alerts`.
 >
 > `update.ps1` lists what it is about to add, takes a copy-only database backup only when
 > something is pending (`-NoBackup` skips it), applies the change and verifies it. Existing
@@ -63,8 +64,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-549af78883183c61c0e04ac965824657cfc36ea1fc2011705752a6670fc74115  ScriptWizard-1.5.0-Setup.zip
-db883de14ee2b935c85151b855a54063ec27288e6e1056d29fbf99161cf77322  ScriptWizard-1.5.0-patch.zip
+1cd73c257d14d9904661f1d930fc41f4771010aacbdafb5bfa26542f5cbd330c  ScriptWizard-1.5.0-Setup.zip
+ebe654622978e2fdab47b8e9c06268945d9cfa11dd458e0172d123471320ce73  ScriptWizard-1.5.0-patch.zip
 a81e6de5f7019b4ce1104f58bc52df9679220af8dabdd747ec35eaca79f64848  ScriptWizard-Agent-1.5.0.zip
 d7677b4a6376ddf525bbc3d0e773de7a6171bc5151905534a61404631c46b907  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -146,6 +147,32 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **Libraries** get a full-screen code view. Each **Scripts** folder has a ⋮ menu with **Add
   script** and **Edit folder**.
 
+### Summary email (Settings → Summary email)
+
+- **A scheduled report for leadership.** Daily (the previous day), weekly on a chosen weekday (the
+  previous 7 days) or monthly on the 1st (the previous calendar month), at a set time in a chosen
+  time zone, to To and Cc recipients.
+- **You choose the sections:** highlights written as sentences, headline numbers with their change
+  on the previous period, an activity chart, the most-run scripts, the scripts that need attention
+  with their latest error, automation by team, new automations live, how runs were started, alerts
+  and incidents, platform health and growth. Editor test runs appear only in their own optional
+  section.
+- **Preview** opens the email in a new tab; **Send now** sends it straight away. It is built for
+  Outlook, up to 720 px wide, and rearranges itself on phones.
+
+### Alerts
+
+- **ServiceNow incidents for anomaly alerts.** Set up the connection once: instance, endpoint,
+  incident fields, and basic, OAuth 2.0 or API-key sign-in. The credentials are stored encrypted and
+  never shown again. Then turn incidents on per check, each with its own impact, urgency and
+  prefilled texts. One incident is raised per problem; repeat alerts go by email. **Test
+  connection** and **Send test incident** check the setup.
+- **Three new anomaly checks:** **Unusual run volume**, **Low disk space** and **Backup failed**.
+  While Backup failed is on, it replaces the standard backup-failure email.
+- **To and Cc** for failure alerts, anomaly alerts and the summary email.
+- **The SMTP and Active Directory service-account passwords are set from Settings.** They are
+  written to the server's `conf\.env` encrypted and used at once, with no restart.
+
 ### Update script
 
 - **`setup\update.ps1` previews, backs up and verifies the database migration.** It takes a
@@ -185,6 +212,16 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   - A desktop job waits for its busy device for up to `DESKTOP_QUEUE_WAIT_MAX_MINUTES` (default
     30) instead of timing out before its script starts.
   - Desktop jobs no longer share the generic concurrency cap.
+- **Anomaly detection settings are reorganised.** Each check is its own panel with a switch, a
+  one-line summary of its values and labelled fields with units. The repeat interval is one field,
+  **Repeat alert every**. A repeated-failures alert now includes the error from the latest failed
+  run.
+- **The Alerting settings are grouped** into **Mail server** and **Failure alerts**, with plain
+  names for every field.
+- **Run History shows finished runs only.** A queued or running job opens in **In Progress**, where
+  its log streams live.
+- **Backups carry the new settings.** The ServiceNow connection travels with Settings and its
+  credentials with Secrets.
 
 ## Fixed
 
