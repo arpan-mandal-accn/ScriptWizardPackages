@@ -64,10 +64,10 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-1cd73c257d14d9904661f1d930fc41f4771010aacbdafb5bfa26542f5cbd330c  ScriptWizard-1.5.0-Setup.zip
-ebe654622978e2fdab47b8e9c06268945d9cfa11dd458e0172d123471320ce73  ScriptWizard-1.5.0-patch.zip
-a81e6de5f7019b4ce1104f58bc52df9679220af8dabdd747ec35eaca79f64848  ScriptWizard-Agent-1.5.0.zip
-d7677b4a6376ddf525bbc3d0e773de7a6171bc5151905534a61404631c46b907  ScriptWizard-Agent-1.5.0-patch.zip
+532cf8881db2dfb66c6c79615ac18a4866de1cff57120295e173d748864de43f  ScriptWizard-1.5.0-Setup.zip
+766c2bb589bd76849eb994d57913a53ea1a7782518970043df064dee4711a0b4  ScriptWizard-1.5.0-patch.zip
+9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
+a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
 
 In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
@@ -158,7 +158,19 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   and incidents, platform health and growth. Editor test runs appear only in their own optional
   section.
 - **Preview** opens the email in a new tab; **Send now** sends it straight away. It is built for
-  Outlook, up to 720 px wide, and rearranges itself on phones.
+  Outlook: up to 900 px wide (720 px in classic Outlook), and it rearranges itself on phones.
+  Subjects start with "Script Wizard", and the inbox preview shows the highlights.
+
+### Diagnostics (Settings → Logs & diagnostics)
+
+- **Download the logs for troubleshooting.** Pick the logs you need and how many past hours
+  (1-168), then download one zip with a file for each: server status, the server log (archived days
+  included, routine requests left out), the watchdog and supervisor logs, the audit trail, each
+  connected desktop device's agent log (needs the 1.5.0 agent), and the system details (processes,
+  scheduled tasks, Windows event logs, IIS errors). A progress bar shows each step; no secrets are
+  included.
+- **`scripts\collect_diagnostics.ps1`** collects the system details into one text file by hand,
+  for when the dashboard cannot be reached.
 
 ### Alerts
 
@@ -222,6 +234,10 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   its log streams live.
 - **Backups carry the new settings.** The ServiceNow connection travels with Settings and its
   credentials with Secrets.
+- **Every setting has a plain name and a rewritten description**, for example **Keep run history**
+  instead of `JOB_RETENTION_DAYS`; the key still finds it in the search box. Some cards are renamed:
+  **Logs & diagnostics**, **Storage & retention**, **Welcome email & terms**, **Email redirect** and
+  **Anomaly detection**.
 
 ## Fixed
 
@@ -252,6 +268,11 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **Dark mode flashed white** while the script editor, Libraries and sign-in pages loaded.
 - **OneDrive could not sync backups** ("No access permissions to the item") when the server ran as
   a service. A backup is now copied into its folder, so it takes that folder's permissions.
+- **Send test incident showed "Gave up waiting after 30s"** although the incident was created;
+  ServiceNow can take longer to answer. The ServiceNow and Send now requests now wait for the server.
+- **ServiceNow failed with "self-signed certificate in certificate chain"** on networks that inspect
+  HTTPS. Script Wizard now also trusts the Windows certificate store, where company root
+  certificates are installed.
 - **On the Users page, the "+N" list of a user's other teams was cut off.**
 - **The Refresh button's tick could get stuck** (and spin) when Refresh was pressed again.
 - **A broken stylesheet comment** silently dropped the script editor toolbar's layout rule.
