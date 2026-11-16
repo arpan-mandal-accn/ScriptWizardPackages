@@ -64,8 +64,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-78daa7c4fe9a66a1ca93d8f9db9008c33ab8cb3ffd4c2958435a4ba4f4d7ccef  ScriptWizard-1.5.0-Setup.zip
-b76d6cee7bf9c61546a2453d0f8f8f92bebaab5f6480ad09a51f7b9b4164a750  ScriptWizard-1.5.0-patch.zip
+656ecfcaf043b9ecec6a99b883a57cf34e3494e0170b5055af106bf628426ef5  ScriptWizard-1.5.0-Setup.zip
+e6ec6e7106b4cb404c9e8fbe246db9b035558db7654b30ca638924b0554a8f20  ScriptWizard-1.5.0-patch.zip
 9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
 a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -156,7 +156,7 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   on the previous period, an activity chart, the most-run scripts, the scripts that need attention
   with their latest error, automation by team, new automations live, how runs were started, alerts
   and incidents, platform health and growth. Editor test runs appear only in their own optional
-  section.
+  section, which lists the most-tested scripts with who created each one and who tested it most.
 - **Preview** opens the email in a new tab; **Send now** sends it straight away. It is built for
   Outlook: up to 900 px wide (720 px in classic Outlook), and it rearranges itself on phones.
   Subjects start with "Script Wizard", and the inbox preview shows the highlights.
@@ -245,6 +245,9 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   since) or **Recovered** (three clean runs in a row, or a clean run after a code change), so a
   script that was fixed no longer needs attention. The Overview card shows the state instead of a
   job ID and opens the script's runs; the email lists recovered scripts separately.
+- **The schedule dialog walks through its tabs.** The main button reads **Next** on Details and
+  Triggers, checking each tab first, and **Create schedule** (or **Save changes** when editing) only on
+  On failure, so nobody saves a schedule without seeing its triggers and failure options.
 - **Every setting has a plain name and a rewritten description**, for example **Keep run history**
   instead of `JOB_RETENTION_DAYS`; the key still finds it in the search box. Some cards are renamed:
   **Logs & diagnostics**, **Storage & retention**, **Welcome email & terms**, **Email redirect** and
