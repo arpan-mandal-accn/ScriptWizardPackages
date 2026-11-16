@@ -64,8 +64,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-7bca10ade9cfddb63ec980948a095d2e2fc6a6f96910d1fd0dcf065573d3f6a8  ScriptWizard-1.5.0-Setup.zip
-e181d9d93c3aac18842c506322ebaf566384b59a13a0cb24761dc91ad473ad2a  ScriptWizard-1.5.0-patch.zip
+78daa7c4fe9a66a1ca93d8f9db9008c33ab8cb3ffd4c2958435a4ba4f4d7ccef  ScriptWizard-1.5.0-Setup.zip
+b76d6cee7bf9c61546a2453d0f8f8f92bebaab5f6480ad09a51f7b9b4164a750  ScriptWizard-1.5.0-patch.zip
 9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
 a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -239,6 +239,12 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   its log streams live.
 - **Backups carry the new settings.** The ServiceNow connection travels with Settings and its
   credentials with Secrets.
+- **Needs attention shows where each script stands now, not how often it failed**, on the
+  Overview page and in the summary email. Each script that failed is listed once as **Failing**
+  (its latest run failed), **Unstable** (it fails on and off, or has not yet run cleanly three times
+  since) or **Recovered** (three clean runs in a row, or a clean run after a code change), so a
+  script that was fixed no longer needs attention. The Overview card shows the state instead of a
+  job ID and opens the script's runs; the email lists recovered scripts separately.
 - **Every setting has a plain name and a rewritten description**, for example **Keep run history**
   instead of `JOB_RETENTION_DAYS`; the key still finds it in the search box. Some cards are renamed:
   **Logs & diagnostics**, **Storage & retention**, **Welcome email & terms**, **Email redirect** and
