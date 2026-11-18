@@ -43,7 +43,7 @@ build was never released, and its changes ship here.
 > Try it on the dev server first.
 >
 > **Schema:** additive only. This release adds:
-> - a new `schedule_triggers` table;
+> - a new `schedule_triggers` table, and a `start_at` column on it and on `script_schedules`;
 > - a `runs_per_minute` column on `api_keys` and `scripts`;
 > - a `run_limit_period` column on `scripts`;
 > - new setting rows for backups;
@@ -64,8 +64,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-656ecfcaf043b9ecec6a99b883a57cf34e3494e0170b5055af106bf628426ef5  ScriptWizard-1.5.0-Setup.zip
-e6ec6e7106b4cb404c9e8fbe246db9b035558db7654b30ca638924b0554a8f20  ScriptWizard-1.5.0-patch.zip
+ab93fe5dbf46a3e62d2393fe2ba049fbae3109113d87061b49dd481d870bde63  ScriptWizard-1.5.0-Setup.zip
+153c1c77d13a7d36bc2debe481e52ab5b09c17e42c087bde1d2b7610b32ef8c8  ScriptWizard-1.5.0-patch.zip
 9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
 a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -116,6 +116,13 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
   inputs, for example 07:00 IST with `region=EU` and weekdays 18:30 EST with `region=US`.
   - **Run now** asks which trigger's inputs to use.
   - The schedule form has three tabs: Details · Triggers · On failure.
+- **Every trigger has a start date and time** (**Starts**), shown in the trigger's time zone and set
+  to the current time there by default. Nothing runs before it.
+  - **Every N minutes** runs at the start and then every N minutes after it, so its times stay fixed:
+    from 07:00 every 60 minutes is 07:00, 08:00, 09:00, however long a run takes. Missed runs are
+    skipped, not queued.
+  - The other types run at their first scheduled time on or after the start.
+  - Schedules saved without a start keep counting from the previous run until they are edited.
 - **Run limits.**
   - **API keys:** per minute, counting job submissions only. Polling and logs are not limited.
   - **Scripts:** per minute, hour or day, counting API calls, Run now, re-runs and schedules. Tests
@@ -248,6 +255,17 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **The schedule dialog walks through its tabs.** The main button reads **Next** on Details and
   Triggers, checking each tab first, and **Create schedule** (or **Save changes** when editing) only on
   On failure, so nobody saves a schedule without seeing its triggers and failure options.
+- **Each trigger has Timing and Input variables tabs**, with the number of inputs on the tab. On the
+  Triggers tab, **Next** goes from Timing to Input variables to the next trigger, so a script's
+  inputs are never hidden below the fold. **Every N minutes** and **Cron** now have their time zone
+  beside the value, as **At** does.
+- **More time zones, in order.** The list (schedules and the summary email) has 56 zones, sorted
+  from UTC−10 to UTC+12, adding among others the Philippines, Malaysia, Sri Lanka, Nepal, Taiwan,
+  Brisbane, Dublin, Lisbon, Germany, Poland, Spain, Turkey, Egypt, South Africa, Toronto, Mexico City,
+  Colombia, Peru, Chile, Atlantic Canada and Arizona.
+- **The script editor's variable summary takes at most two lines.** Inputs and Outputs each stay on
+  one line, showing as many variables as fit and then "+N more", and **Edit variables** keeps its
+  own place on the right.
 - **Every setting has a plain name and a rewritten description**, for example **Keep run history**
   instead of `JOB_RETENTION_DAYS`; the key still finds it in the search box. Some cards are renamed:
   **Logs & diagnostics**, **Storage & retention**, **Welcome email & terms**, **Email redirect** and
