@@ -44,6 +44,7 @@ build was never released, and its changes ship here.
 >
 > **Schema:** additive only. This release adds:
 > - a new `schedule_triggers` table, and a `start_at` column on it and on `script_schedules`;
+> - a `view_roles` column on `libraries`;
 > - a `runs_per_minute` column on `api_keys` and `scripts`;
 > - a `run_limit_period` column on `scripts`;
 > - new setting rows for backups;
@@ -64,8 +65,8 @@ Password: shared separately.
 <summary>SHA-256 checksums</summary>
 
 ```
-ab93fe5dbf46a3e62d2393fe2ba049fbae3109113d87061b49dd481d870bde63  ScriptWizard-1.5.0-Setup.zip
-153c1c77d13a7d36bc2debe481e52ab5b09c17e42c087bde1d2b7610b32ef8c8  ScriptWizard-1.5.0-patch.zip
+7cfa2208bbae650c46994ba66ce7b3a63d864705b886223eadec23d6fb307b4b  ScriptWizard-1.5.0-Setup.zip
+e7d9092a8e4bb9d78b8adfdc27fd9021e2268cf58a1cee460d342a7e5af76d28  ScriptWizard-1.5.0-patch.zip
 9b2973e1dcb2218a2b6533d26eebb59f75a1969f0991680b251fa3ebaa22355c  ScriptWizard-Agent-1.5.0.zip
 a0d7270ba5957d1b758e279d0c217d0c256c1264928e55c980b7d9f97a2db573  ScriptWizard-Agent-1.5.0-patch.zip
 ```
@@ -123,6 +124,10 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
     skipped, not queued.
   - The other types run at their first scheduled time on or after the start.
   - Schedules saved without a start keep counting from the previous run until they are edited.
+- **Choose who can read a library's code** (**Who can view** in the library dialog).
+  Administrators always can; Platform Manager, Editor, Operator and Viewer are ticked or not per
+  library. Everyone can still use the library in scripts: its name and functions, the editor's
+  insert picker and imports are unchanged. Libraries saved before stay readable by every role.
 - **Run limits.**
   - **API keys:** per minute, counting job submissions only. Polling and logs are not limited.
   - **Scripts:** per minute, hour or day, counting API calls, Run now, re-runs and schedules. Tests
@@ -144,6 +149,11 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **A new sign-in page.** The Accenture and Script Wizard logos are drawn in particles
   that blow away and reform as each other; the sign-in card sits on the right, with a theme
   switch. The animation is built for Cloud PCs and stops as soon as you sign in.
+- **A lighter sign-in animation for Cloud PCs** (Settings → Features). **Reduce sign-in
+  animation** uses it on every machine: no background dust or shimmer, the mark rests still and
+  slightly scattered, at most 24 frames a second while it moves, and nothing is drawn while it rests.
+  **Detect slow machines** (on by default) uses it only where the machine looks slow: no graphics
+  card, 2 CPU cores or fewer, or a slow first second; fast machines keep the full animation.
 - **API key Usage tab.** Runs per day for a week, with failed runs and rejected submissions,
   paging back week by week. A disabled key can be **enabled again**.
 - **Multi-select.**
@@ -266,6 +276,11 @@ In PowerShell: `Get-FileHash .\ScriptWizard-1.5.0-patch.zip -Algorithm SHA256`.
 - **The script editor's variable summary takes at most two lines.** Inputs and Outputs each stay on
   one line, showing as many variables as fit and then "+N more", and **Edit variables** keeps its
   own place on the right.
+- **The sign-in mark stops changing once someone starts typing** a username or password, so
+  the page does no extra work while it is in use (with the lighter animation, anything still moving
+  eases into the mark over a second).
+- **Settings → Features no longer has a Desktop devices shortcut**; the Devices page is in the
+  sidebar.
 - **Every setting has a plain name and a rewritten description**, for example **Keep run history**
   instead of `JOB_RETENTION_DAYS`; the key still finds it in the search box. Some cards are renamed:
   **Logs & diagnostics**, **Storage & retention**, **Welcome email & terms**, **Email redirect** and
